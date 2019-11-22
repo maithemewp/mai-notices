@@ -39,14 +39,61 @@
 
 .mai-notice svg {
 	color: var(--mai-notice-color);
-	position: absolute;
-	top: 20px;
-	left: 24px;
-	height: auto;
 	width: 100%;
-	max-width: 36px;
+	height: auto;
 }
 
-.mai-notice p:last-child {
+.mai-notice p:last-child,
+.entry-content .mai-notice p:last-child {
 	margin-bottom: 0;
+}
+
+@media only screen and (max-width: 413px) {
+
+	.mai-notice {
+		padding: 24px;
+	}
+
+	.mai-notice svg {
+		max-width: 24px;
+		margin-bottom: 4px;
+	}
+
+}
+
+@media only screen and (min-width: 414px) {
+
+	.mai-notice svg {
+		position: absolute;
+	}
+
+}
+
+
+@media only screen and (min-width: 414px) and (max-width: 544px) {
+
+	.mai-notice {
+		padding: 24px 24px 24px 64px;
+	}
+
+	.mai-notice svg {
+		top: 26px;
+		left: 24px;
+		max-width: 24px;
+	}
+
+}
+
+@media only screen and (min-width: 545px) {
+
+	.mai-notice {
+		padding: 24px 24px 24px 80px;
+	}
+
+	.mai-notice svg {
+		top: 20px;
+		left: 24px;
+		max-width: 36px;
+	}
+
 }
