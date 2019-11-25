@@ -169,7 +169,7 @@ final class Mai_Notices {
 		}
 
 		// Setup the updater.
-		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/bizbudding/mai-notices/', __FILE__, 'mai-notices' );
+		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-notices/', __FILE__, 'mai-notices' );
 	}
 
 	/**
