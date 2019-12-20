@@ -30,7 +30,7 @@ class Mai_Notice {
 			'title'           => __( 'Mai Notice', 'mai-notices' ),
 			'description'     => __( 'A callout notice block.', 'mai-notices' ),
 			'icon'            => 'info',
-			'category'        => 'formatting',
+			'category'        => 'widgets',
 			'keywords'        => array( 'notice', 'callout', 'content' ),
 			'mode'            => 'auto',
 			'enqueue_style'   => MAI_NOTICES_PLUGIN_URL . "assets/css/mai-notices{$this->get_suffix()}.css",
