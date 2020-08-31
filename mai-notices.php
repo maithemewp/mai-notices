@@ -141,8 +141,9 @@ final class Mai_Notices {
 	 * @return  void
 	 */
 	public function hooks() {
-		add_action( 'admin_init',             array( $this, 'updater' ) );
-		add_filter( 'acf/settings/load_json', array( $this, 'load_json' ) );
+		add_action( 'admin_init',            [ $this, 'updater' ] );
+		// add_filter( 'acf/settings/load_json', array( $this, 'load_json' ) );
+		add_action( 'acf/init',              [ $this, 'register_field_group' ] );
 	}
 
 	/**
@@ -184,6 +185,103 @@ final class Mai_Notices {
 	function load_json( $paths ) {
 		$paths[] = untrailingslashit( MAI_NOTICES_PLUGIN_DIR ) . '/acf-json';
 		return $paths;
+	}
+
+	function register_field_group() {
+		if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+			return;
+		}
+
+		acf_add_local_field_group( array(
+			'key'                   => 'group_5dd6bc04f2d4b',
+			'title'                 => 'Mai Notice',
+			'fields'                => array(
+				array(
+					'key'                 => 'field_5dd6bca5fa5c6',
+					'label'               => 'Type',
+					'name'                => 'type',
+					'type'                => 'button_group',
+					'instructions'        => '',
+					'required'            => 1,
+					'choices'             => array(
+						'info'               => 'Info',
+						'note'               => 'Note',
+						'bookmark'           => 'Bookmark',
+						'idea'               => 'Idea',
+						'alert'              => 'Alert',
+						'success'            => 'Success',
+						'error'              => 'Error',
+						'custom'             => 'Custom',
+					),
+				),
+				array(
+					'key'                 => 'field_5dd6c75b0ea87',
+					'label'               => 'Icon',
+					'name'                => 'icon',
+					'type'                => 'select',
+					'instructions'        => '',
+					'conditional_logic'   => array(
+						array(
+							array(
+								'field'            => 'field_5dd6bca5fa5c6',
+								'operator'         => '==',
+								'value'            => 'custom',
+							),
+						),
+					),
+					'choices'             => [],
+					'default_value'       => false,
+					'ui'                  => 1,
+					'ajax'                => 1,
+				),
+				array(
+					'key'                 => 'field_5dd6e200452f3',
+					'label'               => 'Color',
+					'name'                => 'color',
+					'type'                => 'color_picker',
+					'instructions'        => '',
+					'conditional_logic'   => array(
+						array(
+							array(
+								'field'            => 'field_5dd6bca5fa5c6',
+								'operator'         => '==',
+								'value'            => 'custom',
+							),
+						),
+					),
+					'default_value'       => '#06a4e6',
+				),
+				array(
+					'key'                 => 'field_5dd6c3e627a83',
+					'label'               => 'Content',
+					'name'                => 'content',
+					'type'                => 'wysiwyg',
+					'instructions'        => '',
+					'required'            => 1,
+					'conditional_logic'   => 0,
+					'wrapper'             => array(
+						'width'              => '',
+						'class'              => '',
+						'id'                 => '',
+					),
+					'default_value'       => '',
+					'tabs'                => 'all',
+					'toolbar'             => 'basic',
+					'media_upload'        => 0,
+					'delay'               => 0,
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'              => 'block',
+						'operator'           => '==',
+						'value'              => 'acf/mai-notice',
+					),
+				),
+			),
+		));
+
 	}
 
 }

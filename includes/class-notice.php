@@ -32,12 +32,13 @@ class Mai_Notice {
 			'icon'            => 'info',
 			'category'        => 'widgets',
 			'keywords'        => array( 'notice', 'callout', 'content' ),
-			'mode'            => 'auto',
 			'enqueue_style'   => MAI_NOTICES_PLUGIN_URL . "assets/css/mai-notices{$this->get_suffix()}.css",
 			'render_callback' => array( $this, 'do_notice' ),
 			'supports'        => array(
-				'align'  => array( 'wide' ),
-				'ancher' => true,
+				'align'              => array( 'wide' ),
+				'ancher'             => true,
+				'mode'               => 'preview',
+				'__experimental_jsx' => true,
 			),
 		) );
 	}
@@ -58,15 +59,12 @@ class Mai_Notice {
 		$name    = $this->get_name( $type );
 		$color   = $this->get_color( $type );
 		$icon    = $this->get_icon_html( $name );
-		$content = wp_kses_post( get_field( 'content' ) );
-		// Bail if no content.
-		if ( ! $content ) {
-			return $html;
-		}
+		$content = get_field( 'content' );
 		// Build HTML.
 		$html .= sprintf( '<div class="mai-notice mai-notice-%s" style="--mai-notice-color:%s;">', sanitize_html_class( $name ), esc_attr( $color ) );
 			$html .= $this->get_icon_html( $name );
-			$html .= wp_kses_post( get_field( 'content' ) );
+			$template = $content ? sprintf( 'template="%s"', wp_json_encode( $content ) ) : '';
+			$html .= sprintf( '<innerBlocks %s/>', $template );
 		$html .= '</div>';
 		return $html;
 	}
