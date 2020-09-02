@@ -2,10 +2,12 @@
 
 class Mai_Notice {
 
+	protected $types;
 	protected $args;
 	protected $block;
 
 	function __construct( $args, $block = [] ) {
+		$this->types = mai_notice_get_types();
 		$this->args  = $args;
 		$this->args  = wp_parse_args( $this->args, $this->get_defaults() );
 		$this->block = $block;
@@ -13,8 +15,10 @@ class Mai_Notice {
 
 	function get_defaults() {
 		return [
-			'type'    => '',
-			'content' => '',
+			'type'    => '', // Required.
+			'content' => '', // Required.
+			'icon'    => '',
+			'color'   => '',
 		];
 	}
 
@@ -23,16 +27,13 @@ class Mai_Notice {
 			return '';
 		}
 
-		// vd( $this->args['content'] );
-
 		mai_notice_enqueue_style();
 
-		$name    = $this->get_name( $this->args['type'] );
-		$color   = $this->get_color( $this->args['type'] );
-		$icon    = $this->get_icon_html( $name );
+		$icon    = $this->get_icon_html();
+		$color   = $this->get_color();
 		$content = $this->args['content'];
 		$atts    = [
-			'class' => sprintf( 'mai-notice mai-notice-%s', sanitize_html_class( $name ) ),
+			'class' => sprintf( 'mai-notice mai-notice-%s', sanitize_html_class( $this->args['type'] ) ),
 			'style' => sprintf( '--mai-notice-color:%s;', esc_attr( $color ) ),
 		];
 
@@ -48,29 +49,18 @@ class Mai_Notice {
 		);
 	}
 
-	function get_name( $type ) {
-		$types = mai_notice_get_types();
-		return isset( $types[ $type ]['icon'] ) ? $types[ $type ]['icon'] : '';
-	}
-
-	function get_color( $type ) {
-		$types = mai_notice_get_types();
-		return isset( $types[ $type ]['color'] ) ? $types[ $type ]['color'] : '';
-	}
-
-	function get_icon_html( $name ) {
+	function get_icon_html() {
 		$html = '';
 
-		// Bail if no name.
-		if ( ! $name ) {
+		if ( ! $this->args['icon'] ) {
 			return $html;
 		}
 
 		// Build path.
-		$path = mai_notice_get_icons_dir() . 'svgs/' . $name . '.svg';
+		$path = mai_notice_get_icons_dir() . 'svgs/' . $this->args['icon'] . '.svg';
 
-		// Build path.
-		if ( ! ( $name && file_exists( $path ) ) ) {
+		// Bail if no file.
+		if ( ! file_exists( $path ) ) {
 			return $html;
 		}
 
@@ -109,5 +99,12 @@ class Mai_Notice {
 
 		// Send it.
 		return $html;
+	}
+
+	function get_color() {
+		if ( $this->args['color'] ) {
+			return $this->args['color'];
+		}
+		return isset( $this->types[ $this->args['type'] ]['color'] ) ? $this->types[ $this->args['type'] ]['color'] : '';
 	}
 }

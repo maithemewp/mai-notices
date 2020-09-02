@@ -1,10 +1,32 @@
 <?php
 
+add_shortcode( 'mai_notice', 'mai_notice_shortcode_callback' );
+/**
+ * Registers a shortcode for displaying a notice outside of the block editor.
+ *
+ * @param array $atts The shortcode attributes.
+ *
+ * @return string
+ */
+function mai_notice_shortcode_callback( $atts ) {
+	return mai_get_notice( $atts );
+}
+
+/**
+ * Returns a notice.
+ *
+ * @param array $args The notice args.
+ */
 function mai_get_notice( $args ) {
 	$notice = new Mai_Notice( $args );
 	return $notice->get();
 }
 
+/**
+ * Gets all of the available notice types.
+ *
+ * @return array
+ */
 function mai_notice_get_types() {
 	$types = null;
 
@@ -56,28 +78,36 @@ function mai_notice_get_types() {
 	// Add Custom to the end.
 	$types['custom'] = array(
 		'title' => __( 'Custom', 'mai-notices' ),
-		'icon'  => get_field( 'icon' ),
-		'color' => get_field( 'color' ),
+		'icon'  => null,
+		'color' => null,
 	);
 
 	return $types;
 }
 
+/**
+ * Gets the icons directory.
+ *
+ * @return string
+ */
 function mai_notice_get_icons_dir() {
 	return MAI_NOTICES_PLUGIN_DIR . 'assets/icons/';
 }
 
+/**
+ * Gets the icons directory url.
+ *
+ * @return string
+ */
 function mai_notice_get_icons_url() {
 	return MAI_NOTICES_PLUGIN_URL . 'assets/icons/';
 }
 
-// add_action( 'admin_enqueue_scripts', 'mai_notice_enqueue_style' );
-// add_action( 'wp_enqueue_scripts', 'mai_notice_register_style' );
-function mai_notice_register_style() {
-	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-	wp_register_style( 'mai-notices', MAI_NOTICES_PLUGIN_URL . "assets/css/mai-notices{$suffix}.css", [], MAI_NOTICES_VERSION );
-}
-
+/**
+ * Enqueues the notices styles.
+ *
+ * @return void
+ */
 function mai_notice_enqueue_style() {
 	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 	wp_register_style( 'mai-notices', MAI_NOTICES_PLUGIN_URL . "assets/css/mai-notices{$suffix}.css", [], MAI_NOTICES_VERSION );
@@ -85,39 +115,14 @@ function mai_notice_enqueue_style() {
 }
 
 add_action( 'acf/input/admin_head', 'mai_notice_custom_css' );
+/**
+ * Adds custom admin CSS for the block fields.
+ *
+ * @return void
+ */
 function mai_notice_custom_css() {
 	?>
 	<style class="mai-notice-editor-css">
-		#select2-acf-block_5dd6bce9af42c-field_5dd6c75b0ea87-results {
-			display: -webkit-box;
-			display: -ms-flexbox;
-			display: flex;
-			-ms-flex-wrap: wrap;
-			flex-wrap: wrap;
-		}
-		#select2-acf-block_5dd6bce9af42c-field_5dd6c75b0ea87-results .select2-results__option:not(.loading-results):not(.select2-results__message) {
-			-webkit-box-flex: 1;
-			-ms-flex: 1 1 72px;
-			flex: 1 1 72px;
-			max-width: 72px;
-			text-align: center;
-		}
-		#select2-acf-block_5dd6bce9af42c-field_5dd6c75b0ea87-results .select2-results__option.loading-results,
-		#select2-acf-block_5dd6bce9af42c-field_5dd6c75b0ea87-results .select2-results__option.select2-results__message {
-			-webkit-box-flex: 1;
-			-ms-flex: 1 1 100%;
-			flex: 1 1 100%;
-			max-width: 100%;
-		}
-		#select2-acf-block_5dd6bce9af42c-field_5dd6c75b0ea87-results .select2-results__option .mai-notice-icon-svg {
-			max-width: 36px;
-			max-height: 36px;
-		}
-		#select2-acf-block_5dd6bce9af42c-field_5dd6c75b0ea87-results .select2-results__option .mai-notice-icon-name {
-			display:block;
-			margin: 4px auto 8px;
-			opacity: .6;
-		}
 		.acf-field-5dd6c75b0ea87 .select2-container .select2-selection--single .select2-selection__rendered {
 			display: -webkit-box;
 			display: -ms-flexbox;
@@ -136,6 +141,29 @@ function mai_notice_custom_css() {
 		}
 		.editor-styles-wrapper .mai-notice p {
 			margin-top: 0;
+		}
+		.editor-styles-wrapper .mai-notice p:last-of-type {
+			margin-bottom: 0;
+		}
+		#select2-acf-block_5f4eac01d5191-field_5dd6c75b0ea87-results {
+			display: grid;
+			grid-template-columns: repeat(3, 33.33333%);
+			overflow-x: hidden;
+		}
+		#select2-acf-block_5f4eac01d5191-field_5dd6c75b0ea87-results .select2-results__option:not(.loading-results):not(.select2-results__message) {
+			margin: 0;
+			padding: 8px 12px;
+		}
+		#select2-acf-block_5f4eac01d5191-field_5dd6c75b0ea87-results .select2-results__option .mai-notice-icon-svg {
+			display: block;
+			max-width: 36px;
+			max-height: 36px;
+			margin: auto;
+		}
+		#select2-acf-block_5f4eac01d5191-field_5dd6c75b0ea87-results .select2-results__option .mai-notice-icon-name {
+			display:block;
+			margin: 4px auto 8px;
+			opacity: 0.6;
 		}
 	</style>
 	<?php

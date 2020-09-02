@@ -1,12 +1,5 @@
 <?php
 
-// add_action( 'genesis_before_loop', function() {
-// 	echo mai_get_notice( [
-// 		'type' => 'info',
-// 		'content' => 'Yoooooo!',
-// 	] );
-// });
-
 // Get it started.
 add_action( 'plugins_loaded', function() {
 	new Mai_Notice_Block;
@@ -47,14 +40,20 @@ class Mai_Notice_Block {
 	}
 
 	function do_notice( $block, $content = '', $is_preview = false ) {
+		$types    = mai_notice_get_types();
+		$type     = get_field( 'type' );
+		$icon     = 'custom' === $type ? get_field( 'icon' ) : $types[ $type ]['icon'];
+		$color    = 'custom' === $type ? get_field( 'color' ) : $types[ $type ]['color'];
 		$existing = get_field( 'content' );
 		$inner    = '';
-		$inner   .= $is_preview && $existing ? '<p style="color:red;">This block contains content in the old field in the sidebar. Please copy it out of there and paste into the new inner blocks editor!</p>' : '';
+		$inner   .= $is_preview && $existing ? sprintf( '<p style="padding:8px 16px;background-color:#fd0010;color:white;font-size:15px;border-radius:3px;">%s</p>', __( 'This block contains content in the old field in the sidebar. Please copy it out of there and paste into the new inner blocks editor!' , 'mai-notices' ) ) : '';
 		$inner   .= $existing ? wpautop( $existing ) : '';
 		$inner   .= '<InnerBlocks/>';
 
 		echo mai_get_notice( [
-			'type'    => get_field( 'type' ),
+			'type'    => $type,
+			'icon'    => $icon,
+			'color'   => $color,
 			'content' => $inner,
 		] );
 	}
@@ -162,7 +161,11 @@ class Mai_Notice_Block {
 					'key'                 => 'field_5dd6c3e627a83',
 					'label'               => 'Content',
 					'name'                => 'content',
-					'type'                => 'textarea',
+					'type'                => 'wysiwyg',
+					'tabs'                => 'all',
+					'toolbar'             => 'basic',
+					'media_upload'        => 0,
+					'delay'               => 1,
 				],
 			],
 			'location'              => [
@@ -175,29 +178,5 @@ class Mai_Notice_Block {
 				],
 			],
 		] );
-
 	}
-
 }
-
-// add_filter( 'render_block', function( $block_content, $block ) {
-// 	vd( $block );
-// 	if ( 'acf/mai-notice' !== $block['blockName'] ) {
-// 		return $block_content;
-// 	}
-
-// 	// vd( $block_content );
-
-// 	// $block['innerBlocks'][] = [
-// 	// 	"blockName"    => null,
-// 	// 	"attrs"        => [],
-// 	// 	"innerBlocks"  => [],
-// 	// 	"innerHTML"    => "",
-// 	// 	"innerContent" => [
-// 	// 		0 => ""
-// 	// 	]
-// 	// ]
-
-// 	return $block_content;
-// }, 10, 2 );
-

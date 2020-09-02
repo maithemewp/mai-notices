@@ -4,7 +4,7 @@
  * Plugin Name:     Mai Notices
  * Plugin URI:      https://maitheme.com
  * Description:     Custom block for callout notices in your content.
- * Version:         0.1.1
+ * Version:         1.0.0
  *
  * Author:          BizBudding, Mike Hemberger
  * Author URI:      https://bizbudding.com
@@ -90,7 +90,7 @@ final class Mai_Notices {
 
 		// Plugin version.
 		if ( ! defined( 'MAI_NOTICES_VERSION' ) ) {
-			define( 'MAI_NOTICES_VERSION', '0.1.1' );
+			define( 'MAI_NOTICES_VERSION', '1.0.0' );
 		}
 
 		// Plugin Folder Path.
@@ -141,7 +141,6 @@ final class Mai_Notices {
 	 */
 	public function hooks() {
 		add_action( 'admin_init', [ $this, 'updater' ] );
-		// add_filter( 'acf/settings/load_json', array( $this, 'load_json' ) );
 	}
 
 	/**
@@ -169,20 +168,6 @@ final class Mai_Notices {
 
 		// Setup the updater.
 		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-notices/', __FILE__, 'mai-notices' );
-	}
-
-	/**
-	 * Add path to load acf json files.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @param array The existing acf-json paths.
-	 *
-	 * @return array The modified paths.
-	 */
-	function load_json( $paths ) {
-		$paths[] = untrailingslashit( MAI_NOTICES_PLUGIN_DIR ) . '/acf-json';
-		return $paths;
 	}
 }
 
