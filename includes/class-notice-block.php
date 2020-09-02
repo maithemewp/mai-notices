@@ -42,12 +42,12 @@ class Mai_Notice_Block {
 	function do_notice( $block, $content = '', $is_preview = false ) {
 		$types    = mai_notice_get_types();
 		$type     = get_field( 'type' );
-		$icon     = 'custom' === $type ? get_field( 'icon' ) : $types[ $type ]['icon'];
-		$color    = 'custom' === $type ? get_field( 'color' ) : $types[ $type ]['color'];
+		$icon     = 'custom' === $type ? get_field( 'icon' ) : ( isset( $types[ $type ]['icon'] ) ? $types[ $type ]['icon'] : '' );
+		$color    = 'custom' === $type ? get_field( 'color' ) : ( isset( $types[ $type ]['color'] ) ? $types[ $type ]['color'] : '' );
 		$existing = get_field( 'content' );
 		$inner    = '';
 		$inner   .= $is_preview && $existing ? sprintf( '<p style="padding:8px 16px;background-color:#fd0010;color:white;font-size:15px;border-radius:3px;">%s</p>', __( 'This block contains content in the old field in the sidebar. Please copy it out of there and paste into the new inner blocks editor!' , 'mai-notices' ) ) : '';
-		$inner   .= $existing ? wpautop( $existing ) : '';
+		$inner   .= $existing ?: $existing;
 		$inner   .= '<InnerBlocks/>';
 
 		echo mai_get_notice( [

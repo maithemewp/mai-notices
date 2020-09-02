@@ -37,7 +37,7 @@
 	border-left-color: #fea321;
 }
 
-.mai-notice svg {
+.mai-notice-icon {
 	color: var(--mai-notice-color);
 	width: 100%;
 	height: auto;
@@ -54,7 +54,7 @@
 		padding: 24px;
 	}
 
-	.mai-notice svg {
+	.mai-notice-icon {
 		max-width: 24px;
 		margin-bottom: 4px;
 	}
@@ -63,7 +63,7 @@
 
 @media only screen and (min-width: 414px) {
 
-	.mai-notice svg {
+	.mai-notice-icon {
 		position: absolute;
 	}
 
@@ -76,7 +76,7 @@
 		padding: 24px 24px 24px 64px;
 	}
 
-	.mai-notice svg {
+	.mai-notice-icon {
 		top: 26px;
 		left: 24px;
 		max-width: 24px;
@@ -90,7 +90,7 @@
 		padding: 24px 24px 24px 80px;
 	}
 
-	.mai-notice svg {
+	.mai-notice-icon {
 		top: 20px;
 		left: 24px;
 		max-width: 36px;

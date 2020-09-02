@@ -51,13 +51,14 @@ class Mai_Notice {
 
 	function get_icon_html() {
 		$html = '';
+		$icon = $this->get_icon();
 
-		if ( ! $this->args['icon'] ) {
+		if ( ! $icon ) {
 			return $html;
 		}
 
 		// Build path.
-		$path = mai_notice_get_icons_dir() . 'svgs/' . $this->args['icon'] . '.svg';
+		$path = mai_notice_get_icons_dir() . 'svgs/' . $icon . '.svg';
 
 		// Bail if no file.
 		if ( ! file_exists( $path ) ) {
@@ -84,6 +85,8 @@ class Mai_Notice {
 
 		// Need to loop through, even thoguh there is only one item.
 		foreach ( $dom->getElementsByTagName( 'svg' ) as $item ) {
+			// Class.
+			$item->setAttribute( 'class', 'mai-notice-icon' );
 			// Color.
 			$item->setAttribute( 'fill', 'currentColor' );
 			// Height & Width.
@@ -99,6 +102,13 @@ class Mai_Notice {
 
 		// Send it.
 		return $html;
+	}
+
+	function get_icon() {
+		if ( $this->args['icon'] ) {
+			return $this->args['icon'];
+		}
+		return isset( $this->types[ $this->args['type'] ]['icon'] ) ? $this->types[ $this->args['type'] ]['icon'] : '';
 	}
 
 	function get_color() {

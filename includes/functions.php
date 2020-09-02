@@ -8,7 +8,8 @@ add_shortcode( 'mai_notice', 'mai_notice_shortcode_callback' );
  *
  * @return string
  */
-function mai_notice_shortcode_callback( $atts ) {
+function mai_notice_shortcode_callback( $atts, $content = null ) {
+	$atts['content'] = wpautop( $content );
 	return mai_get_notice( $atts );
 }
 
