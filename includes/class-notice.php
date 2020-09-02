@@ -6,7 +6,7 @@ class Mai_Notice {
 	protected $args;
 	protected $block;
 
-	function __construct( $args, $block = [] ) {
+	function __construct( $args, $block = false ) {
 		$this->types = mai_notice_get_types();
 		$this->args  = $args;
 		$this->args  = wp_parse_args( $this->args, $this->get_defaults() );
@@ -31,7 +31,8 @@ class Mai_Notice {
 
 		$icon    = $this->get_icon_html();
 		$color   = $this->get_color();
-		$content = $this->args['content'];
+		$content = function_exists( 'mai_get_processed_content' ) && ! $this->block ? mai_get_processed_content( $this->args['content'] ) : $this->args['content'];
+		vd( $this->block );
 		$atts    = [
 			'class' => sprintf( 'mai-notice mai-notice-%s', sanitize_html_class( $this->args['type'] ) ),
 			'style' => sprintf( '--mai-notice-color:%s;', esc_attr( $color ) ),

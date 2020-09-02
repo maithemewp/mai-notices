@@ -9,7 +9,7 @@ add_shortcode( 'mai_notice', 'mai_notice_shortcode_callback' );
  * @return string
  */
 function mai_notice_shortcode_callback( $atts, $content = null ) {
-	$atts['content'] = wpautop( $content );
+	$atts['content'] = $content;
 	return mai_get_notice( $atts );
 }
 
@@ -17,9 +17,12 @@ function mai_notice_shortcode_callback( $atts, $content = null ) {
  * Returns a notice.
  *
  * @param array $args The notice args.
+ * @param bool  $block If the notice is coming block. This disables the processing of incoming content.
+ *
+ * @return string
  */
-function mai_get_notice( $args ) {
-	$notice = new Mai_Notice( $args );
+function mai_get_notice( $args, $block = false ) {
+	$notice = new Mai_Notice( $args, $block );
 	return $notice->get();
 }
 

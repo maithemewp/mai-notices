@@ -43,6 +43,10 @@
 	height: auto;
 }
 
+.mai-notice p:empty {
+	display: none;
+}
+
 .mai-notice p:last-child,
 .entry-content .mai-notice p:last-child {
 	margin-bottom: 0;

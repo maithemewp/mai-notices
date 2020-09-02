@@ -55,7 +55,7 @@ class Mai_Notice_Block {
 			'icon'    => $icon,
 			'color'   => $color,
 			'content' => $inner,
-		] );
+		], true );
 	}
 
 	function load_type_choices( $field ) {
