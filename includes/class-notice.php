@@ -32,7 +32,6 @@ class Mai_Notice {
 		$icon    = $this->get_icon_html();
 		$color   = $this->get_color();
 		$content = function_exists( 'mai_get_processed_content' ) && ! $this->block ? mai_get_processed_content( $this->args['content'] ) : $this->args['content'];
-		vd( $this->block );
 		$atts    = [
 			'class' => sprintf( 'mai-notice mai-notice-%s', sanitize_html_class( $this->args['type'] ) ),
 			'style' => sprintf( '--mai-notice-color:%s;', esc_attr( $color ) ),
