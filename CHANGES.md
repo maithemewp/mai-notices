@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.2 (9/3/20)
+* Changed: Use Mai Theme v2 border and shadow custom properties to inherit styling.
+
 ## 1.0.1 (9/2/20)
 * Changed: Better formatting of content directly from shortcode and helper function.
 * Fixed: Shortcode not passing content correctly.

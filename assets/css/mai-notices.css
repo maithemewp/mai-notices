@@ -3,11 +3,11 @@
 	background: #fff;
 	padding: 24px 24px 24px 80px;
 	margin-bottom: 24px;
-	border: 1px solid rgba(0,0,0,.04);
+	border: var(--border, 1px solid rgba(0, 0, 0, 0.04));
 	border-left: none;
 	border-radius: 5px;
-	-webkit-box-shadow: var(--box-shadow, 0 0 16px rgba(0,0,0,.05));
-	box-shadow: var(--box-shadow, 0 0 16px rgba(0,0,0,.05));
+	-webkit-box-shadow: var(--shadow, 0 0 16px rgba(0, 0, 0, 0.05));
+	box-shadow: var(--shadow, 0 0 16px rgba(0, 0, 0, 0.05));
 	overflow: hidden;
 }
 
@@ -62,7 +62,6 @@
 		max-width: 24px;
 		margin-bottom: 4px;
 	}
-
 }
 
 @media only screen and (min-width: 414px) {
@@ -70,7 +69,6 @@
 	.mai-notice-icon {
 		position: absolute;
 	}
-
 }
 
 
@@ -85,7 +83,6 @@
 		left: 24px;
 		max-width: 24px;
 	}
-
 }
 
 @media only screen and (min-width: 545px) {
@@ -99,5 +96,4 @@
 		left: 24px;
 		max-width: 36px;
 	}
-
 }
