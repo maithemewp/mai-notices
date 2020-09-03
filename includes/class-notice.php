@@ -19,6 +19,7 @@ class Mai_Notice {
 			'content' => '', // Required.
 			'icon'    => '',
 			'color'   => '',
+			'class'   => '',
 		];
 	}
 
@@ -36,6 +37,10 @@ class Mai_Notice {
 			'class' => sprintf( 'mai-notice mai-notice-%s', sanitize_html_class( $this->args['type'] ) ),
 			'style' => sprintf( '--mai-notice-color:%s;', esc_attr( $color ) ),
 		];
+
+		if ( $this->args['class'] ) {
+			$atts['class'] .= ' ' . sanitize_html_class( $this->args['class'] );
+		}
 
 		return genesis_markup(
 			[
