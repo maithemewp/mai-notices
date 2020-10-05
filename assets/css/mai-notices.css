@@ -1,24 +1,24 @@
 .mai-notice {
 	position: relative;
-	background: #fff;
-	padding: 24px 24px 24px 80px;
 	margin-bottom: 24px;
+	padding: var(--mai-notice-padding, var(--mai-notice-padding-top, 24px) var(--mai-notice-padding-right, 24px) var(--mai-notice-padding-bottom, 24px) var(--mai-notice-padding-left, 32px));
+	overflow: hidden;
+	background: var(--color-white, white);
 	border: var(--border, 1px solid rgba(0, 0, 0, 0.04));
 	border-left: none;
 	border-radius: 5px;
 	-webkit-box-shadow: var(--shadow, 0 0 16px rgba(0, 0, 0, 0.05));
 	box-shadow: var(--shadow, 0 0 16px rgba(0, 0, 0, 0.05));
-	overflow: hidden;
 }
 
 .mai-notice::before {
-	content: '';
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 4px;
 	height: 100%;
 	background: var(--mai-notice-color);
+	content: "";
 }
 
 .mai-notice.error {
@@ -38,9 +38,14 @@
 }
 
 .mai-notice-icon {
-	color: var(--mai-notice-color);
+	position: var(--mai-notice-icon-position, static);
+	top: var(--mai-notice-icon-top, unset);
+	left: var(--mai-notice-icon-left, unset);
 	width: 100%;
+	max-width: var(--mai-notice-icon-max-width, 24px);
 	height: auto;
+	margin-bottom: var(--mai-notice-icon-margin-bottom, 4px);
+	color: var(--mai-notice-color);
 }
 
 .mai-notice p:empty {
@@ -52,48 +57,30 @@
 	margin-bottom: 0;
 }
 
-@media only screen and (max-width: 413px) {
-
-	.mai-notice {
-		padding: 24px;
-	}
-
-	.mai-notice-icon {
-		max-width: 24px;
-		margin-bottom: 4px;
-	}
-}
-
 @media only screen and (min-width: 414px) {
 
-	.mai-notice-icon {
-		position: absolute;
+	.mai-notice-has-icon {
+		--mai-notice-icon-margin-bottom: 0;
+		--mai-notice-icon-position: absolute;
 	}
 }
 
 
 @media only screen and (min-width: 414px) and (max-width: 544px) {
 
-	.mai-notice {
-		padding: 24px 24px 24px 64px;
-	}
-
-	.mai-notice-icon {
-		top: 26px;
-		left: 24px;
-		max-width: 24px;
+	.mai-notice-has-icon {
+		--mai-notice-padding-left: 64px;
+		--mai-notice-icon-top: 26px;
+		--mai-notice-icon-left: 24px;
 	}
 }
 
 @media only screen and (min-width: 545px) {
 
-	.mai-notice {
-		padding: 24px 24px 24px 80px;
-	}
-
-	.mai-notice-icon {
-		top: 20px;
-		left: 24px;
-		max-width: 36px;
+	.mai-notice-has-icon {
+		--mai-notice-padding-left: 80px;
+		--mai-notice-icon-max-width: 36px;
+		--mai-notice-icon-top: 20px;
+		--mai-notice-icon-left: 24px;
 	}
 }

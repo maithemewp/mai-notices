@@ -38,53 +38,54 @@ function mai_notice_get_types() {
 		return $types;
 	}
 
-	$types = array(
-		'info' => array(
-			'title' => __( 'Info', 'mai-notices' ),
-			'icon'  => 'info-circle',
-			'color' => '#0da7e4',
-		),
-		'note' => array(
+	$types = [
+		'info' => [
+			'title'   => __( 'Info', 'mai-notices' ),
+			'icon'    => 'info-circle',
+			'color'   => '#0da7e4',
+			'default' => true,
+		],
+		'note' => [
 			'title' => __( 'Note', 'mai-notices' ),
 			'icon'  => 'pencil',
 			'color' => '#0da7e4',
-		),
-		'bookmark' => array(
+		],
+		'bookmark' => [
 			'title' => __( 'Bookmark', 'mai-notices' ),
 			'icon'  => 'bookmark',
 			'color' => '#055e9a',
-		),
-		'idea' => array(
+		],
+		'idea' => [
 			'title' => __( 'Idea', 'mai-notices' ),
 			'icon'  => 'lightbulb-on',
 			'color' => '#f7cf00',
-		),
-		'alert'   => array(
+		],
+		'alert'   => [
 			'title' => __( 'Alert', 'mai-notices' ),
 			'icon'  => 'exclamation-circle',
 			'color' => '#fea320',
-		),
-		'success' => array(
+		],
+		'success' => [
 			'title' => __( 'Success', 'mai-notices' ),
 			'icon'  => 'check-circle',
 			'color' => '#00cd51',
-		),
-		'error'   => array(
+		],
+		'error'   => [
 			'title' => __( 'Error', 'mai-notices' ),
 			'icon'  => 'times-circle',
 			'color' => '#fd0010',
-		),
-	);
+		],
+	];
 
 	// Filter types.
 	$types = apply_filters( 'mai_notices_types', $types );
 
 	// Add Custom to the end.
-	$types['custom'] = array(
-		'title' => __( 'Custom', 'mai-notices' ),
+	$types['custom'] = [
+		'title' => __( 'None/Custom', 'mai-notices' ),
 		'icon'  => null,
 		'color' => null,
-	);
+	];
 
 	return $types;
 }
@@ -116,6 +117,35 @@ function mai_notice_enqueue_style() {
 	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 	wp_register_style( 'mai-notices', MAI_NOTICES_PLUGIN_URL . "assets/css/mai-notices{$suffix}.css", [], MAI_NOTICES_VERSION );
 	wp_enqueue_style( 'mai-notices' );
+}
+
+/**
+ * Taken from `mai_get_processed_content()` in Mai Engine plugin.
+ *
+ * @param string $content The unprocessed content.
+ *
+ * @return string
+ */
+function mai_notice_get_processed_content( $content ) {
+
+	/**
+	 * Embed.
+	 *
+	 * @var WP_Embed $wp_embed Embed object.
+	 */
+	global $wp_embed;
+
+	$content = $wp_embed->autoembed( $content );     // WP runs priority 8.
+	$content = $wp_embed->run_shortcode( $content ); // WP runs priority 8.
+	$content = do_blocks( $content );                // WP runs priority 9.
+	$content = wptexturize( $content );              // WP runs priority 10.
+	$content = wpautop( $content );                  // WP runs priority 10.
+	$content = shortcode_unautop( $content );        // WP runs priority 10.
+	$content = function_exists( 'wp_filter_content_tags' ) ? wp_filter_content_tags( $content ) : wp_make_content_images_responsive( $content ); // WP runs priority 10. WP 5.5 with fallback.
+	$content = do_shortcode( $content );             // WP runs priority 11.
+	$content = convert_smilies( $content );          // WP runs priority 20.
+
+	return $content;
 }
 
 add_action( 'acf/input/admin_head', 'mai_notice_custom_css' );
