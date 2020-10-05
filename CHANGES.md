@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 (10/5/20)
+* Added: Now supports notices without an icon.
+* Changed: More efficient CSS.
+
 ## 1.0.2 (9/3/20)
 * Changed: Use Mai Theme v2 border and shadow custom properties to inherit styling.
 
