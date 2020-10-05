@@ -42,6 +42,7 @@ class Mai_Notice_Block {
 	function do_notice( $block, $content = '', $is_preview = false ) {
 		$types    = mai_notice_get_types();
 		$type     = get_field( 'type' );
+		$type     = $type ?: $this->get_default_type();
 		$icon     = 'custom' === $type ? get_field( 'icon' ) : ( isset( $types[ $type ]['icon'] ) ? $types[ $type ]['icon'] : '' );
 		$color    = 'custom' === $type ? get_field( 'color' ) : ( isset( $types[ $type ]['color'] ) ? $types[ $type ]['color'] : '' );
 		$existing = get_field( 'content' );
@@ -63,12 +64,29 @@ class Mai_Notice_Block {
 		echo mai_get_notice( $args, true );
 	}
 
+	function get_default_type() {
+		$default = 'info';
+		$types   = mai_notice_get_types();
+
+		foreach( $types as $name => $type ) {
+			if ( isset( $type['default'] ) && $type['default'] ) {
+				$default = $name;
+			}
+		}
+
+		return $default;
+	}
+
 	function load_type_choices( $field ) {
 		$field['choices'] = [];
 		$types            = mai_notice_get_types();
 
 		foreach( $types as $name => $type ) {
 			$field['choices'][ $name ] = $type['title'];
+
+			if ( isset( $type['default'] ) && $type['default'] ) {
+				$field['default'] = $name;
+			}
 		}
 
 		return $field;
@@ -105,29 +123,20 @@ class Mai_Notice_Block {
 
 		acf_add_local_field_group( [
 			'key'                   => 'group_5dd6bc04f2d4b',
-			'title'                 => 'Mai Notice',
+			'title'                 => __( 'Mai Notice', 'mai-notices' ),
 			'fields'                => [
 				[
 					'key'                 => 'field_5dd6bca5fa5c6',
-					'label'               => 'Type',
+					'label'               => __( 'Type', 'mai-notices' ),
 					'name'                => 'type',
 					'type'                => 'radio',
 					'instructions'        => '',
 					'required'            => 1,
-					'choices'             => [
-						'info'               => 'Info',
-						'note'               => 'Note',
-						'bookmark'           => 'Bookmark',
-						'idea'               => 'Idea',
-						'alert'              => 'Alert',
-						'success'            => 'Success',
-						'error'              => 'Error',
-						'custom'             => 'Custom',
-					],
+					'choices'             => [], // Loaded via filter.
 				],
 				[
 					'key'                 => 'field_5dd6c75b0ea87',
-					'label'               => 'Icon',
+					'label'               => __( 'Icon', 'mai-notices' ),
 					'name'                => 'icon',
 					'type'                => 'select',
 					'instructions'        => '',
@@ -147,7 +156,7 @@ class Mai_Notice_Block {
 				],
 				[
 					'key'                 => 'field_5dd6e200452f3',
-					'label'               => 'Color',
+					'label'               => __( 'Color', 'mai-notices' ),
 					'name'                => 'color',
 					'type'                => 'color_picker',
 					'instructions'        => '',
@@ -164,7 +173,7 @@ class Mai_Notice_Block {
 				],
 				[
 					'key'                 => 'field_5dd6c3e627a83',
-					'label'               => 'Content',
+					'label'               => __( 'Content', 'mai-notices' ),
 					'name'                => 'content',
 					'type'                => 'wysiwyg',
 					'tabs'                => 'all',
