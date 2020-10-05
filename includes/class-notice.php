@@ -32,11 +32,20 @@ class Mai_Notice {
 
 		$icon    = $this->get_icon_html();
 		$color   = $this->get_color();
-		$content = function_exists( 'mai_get_processed_content' ) && ! $this->block ? mai_get_processed_content( $this->args['content'] ) : $this->args['content'];
-		$atts    = [
+		$content = $this->args['content'];
+
+		if ( ! $this->block ) {
+			$content = function_exists( 'mai_get_processed_content' ) ? mai_get_processed_content( $this->args['content'] ) : mai_notice_get_processed_content( $this->args['content'] );
+		}
+
+		$atts = [
 			'class' => sprintf( 'mai-notice mai-notice-%s', sanitize_html_class( $this->args['type'] ) ),
 			'style' => sprintf( '--mai-notice-color:%s;', esc_attr( $color ) ),
 		];
+
+		if ( $icon ) {
+			$atts['class'] .= ' mai-notice-has-icon';
+		}
 
 		if ( $this->args['class'] ) {
 			$atts['class'] .= ' ' . sanitize_html_class( $this->args['class'] );
