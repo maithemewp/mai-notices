@@ -2,11 +2,11 @@
 
 /**
  * Plugin Name:     Mai Notices
- * Plugin URI:      https://maitheme.com
+ * Plugin URI:      https://bizbudding.com/products/mai-notices/
  * Description:     Custom block for callout notices in your content.
- * Version:         1.1.0
+ * Version:         1.1.1
  *
- * Author:          BizBudding, Mike Hemberger
+ * Author:          BizBudding
  * Author URI:      https://bizbudding.com
  */
 
@@ -64,7 +64,7 @@ final class Mai_Notices {
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden.
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'textdomain' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'mai-notices' ), '1.0' );
 	}
 
 	/**
@@ -76,7 +76,7 @@ final class Mai_Notices {
 	 */
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden.
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'textdomain' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'mai-notices' ), '1.0' );
 	}
 
 	/**
@@ -90,7 +90,7 @@ final class Mai_Notices {
 
 		// Plugin version.
 		if ( ! defined( 'MAI_NOTICES_VERSION' ) ) {
-			define( 'MAI_NOTICES_VERSION', '1.1.0' );
+			define( 'MAI_NOTICES_VERSION', '1.1.1' );
 		}
 
 		// Plugin Folder Path.
