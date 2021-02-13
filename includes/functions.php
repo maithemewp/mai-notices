@@ -17,7 +17,7 @@ function mai_notice_shortcode_callback( $atts, $content = null ) {
  * Returns a notice.
  *
  * @param array $args The notice args.
- * @param bool  $block If the notice is coming block. This disables the processing of incoming content.
+ * @param bool  $block If the notice is coming from a block. This disables the processing of incoming content.
  *
  * @return string
  */
