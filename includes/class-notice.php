@@ -8,8 +8,7 @@ class Mai_Notice {
 
 	function __construct( $args, $block = false ) {
 		$this->types = mai_notice_get_types();
-		$this->args  = $args;
-		$this->args  = wp_parse_args( $this->args, $this->get_defaults() );
+		$this->args  = wp_parse_args( $args, $this->get_defaults() );
 		$this->block = $block;
 	}
 
