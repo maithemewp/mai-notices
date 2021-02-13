@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.2 (2/13/21)
+* Added: Mai logo icon to updater.
+
+## 1.1.1 (12/11/2)
+* Changed: General cleanup for official launch on our site.
+
 ## 1.1.0 (10/5/20)
 * Added: Now supports notices without an icon.
 * Changed: More efficient CSS.

@@ -49,7 +49,7 @@ class Mai_Notice_Block {
 		$inner    = '';
 		$inner   .= $is_preview && $existing ? sprintf( '<p style="padding:8px 16px;background-color:#fd0010;color:white;font-size:15px;border-radius:3px;">%s</p>', __( 'This block contains content in the old field in the sidebar. Please copy it out of there and paste into the new inner blocks editor!' , 'mai-notices' ) ) : '';
 		$inner   .= $existing ?: $existing;
-		$inner   .= '<InnerBlocks/>';
+		$inner   .= $this->get_inner_blocks();
 		$args     = [
 			'type'    => $type,
 			'icon'    => $icon,
@@ -57,7 +57,7 @@ class Mai_Notice_Block {
 			'content' => $inner,
 		];
 
-		if ( ! empty( $block['className'] ) ) {
+		if ( isset( $block['className'] ) && ! empty( $block['className'] ) ) {
 			$args['class'] = $block['className'];
 		}
 
@@ -75,6 +75,14 @@ class Mai_Notice_Block {
 		}
 
 		return $default;
+	}
+
+	function get_inner_blocks() {
+		$template = [
+			[ 'core/paragraph', [], [] ],
+		];
+
+		return sprintf( '<InnerBlocks template="%s" />', esc_attr( wp_json_encode( $template ) ) );
 	}
 
 	function load_type_choices( $field ) {
