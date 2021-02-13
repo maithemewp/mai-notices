@@ -14,36 +14,36 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * Main Mai_Notices Class.
+ * Main Mai_Notices_Plugin Class.
  *
  * @since 0.1.0
  */
-final class Mai_Notices {
+final class Mai_Notices_Plugin {
 
 	/**
-	 * @var   Mai_Notices The one true Mai_Notices
+	 * @var   Mai_Notices_Plugin The one true Mai_Notices_Plugin
 	 * @since 0.1.0
 	 */
 	private static $instance;
 
 	/**
-	 * Main Mai_Notices Instance.
+	 * Main Mai_Notices_Plugin Instance.
 	 *
-	 * Insures that only one instance of Mai_Notices exists in memory at any one
+	 * Insures that only one instance of Mai_Notices_Plugin exists in memory at any one
 	 * time. Also prevents needing to define globals all over the place.
 	 *
 	 * @since   0.1.0
 	 * @static  var array $instance
-	 * @uses    Mai_Notices::setup_constants() Setup the constants needed.
-	 * @uses    Mai_Notices::includes() Include the required files.
-	 * @uses    Mai_Notices::hooks() Activate, deactivate, etc.
-	 * @see     Mai_Notices()
-	 * @return  object | Mai_Notices The one true Mai_Notices
+	 * @uses    Mai_Notices_Plugin::setup_constants() Setup the constants needed.
+	 * @uses    Mai_Notices_Plugin::includes() Include the required files.
+	 * @uses    Mai_Notices_Plugin::hooks() Activate, deactivate, etc.
+	 * @see     Mai_Notices_Plugin()
+	 * @return  object | Mai_Notices_Plugin The one true Mai_Notices_Plugin
 	 */
 	public static function instance() {
 		if ( ! isset( self::$instance ) ) {
 			// Setup the setup.
-			self::$instance = new Mai_Notices;
+			self::$instance = new Mai_Notices_Plugin;
 			// Methods.
 			self::$instance->setup_constants();
 			self::$instance->includes();
@@ -168,27 +168,42 @@ final class Mai_Notices {
 
 		// Setup the updater.
 		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-notices/', __FILE__, 'mai-notices' );
+
+		// Maybe set github api token.
+		if ( defined( 'MAI_GITHUB_API_TOKEN' ) ) {
+			$updater->setAuthentication( MAI_GITHUB_API_TOKEN );
+		}
+
+		// Add icons for Dashboard > Updates screen.
+		if ( function_exists( 'mai_get_updater_icons' ) && $icons = mai_get_updater_icons() ) {
+			$updater->addResultFilter(
+				function ( $info ) use ( $icons ) {
+					$info->icons = $icons;
+					return $info;
+				}
+			);
+		}
 	}
 }
 
 /**
- * The main function for that returns Mai_Notices
+ * The main function for that returns Mai_Notices_Plugin
  *
- * The main function responsible for returning the one true Mai_Notices
+ * The main function responsible for returning the one true Mai_Notices_Plugin
  * Instance to functions everywhere.
  *
  * Use this function like you would a global variable, except without needing
  * to declare the global.
  *
- * Example: <?php $plugin = Mai_Notices(); ?>
+ * Example: <?php $plugin = Mai_Notices_Plugin(); ?>
  *
  * @since 0.1.0
  *
- * @return object|Mai_Notices The one true Mai_Notices Instance.
+ * @return object|Mai_Notices_Plugin The one true Mai_Notices_Plugin Instance.
  */
-function Mai_Notices() {
-	return Mai_Notices::instance();
+function Mai_Notices_Plugin() {
+	return Mai_Notices_Plugin::instance();
 }
 
-// Get Mai_Notices Running.
-Mai_Notices();
+// Get Mai_Notices_Plugin Running.
+Mai_Notices_Plugin();
