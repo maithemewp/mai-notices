@@ -32,7 +32,7 @@ function mai_get_notice( $args, $block = false ) {
  * @return array
  */
 function mai_notice_get_types() {
-	$types = null;
+	static $types = null;
 
 	if ( ! is_null( $types ) ) {
 		return $types;
@@ -41,37 +41,44 @@ function mai_notice_get_types() {
 	$types = [
 		'info' => [
 			'title'   => __( 'Info', 'mai-notices' ),
+			'style'   => 'light',
 			'icon'    => 'info-circle',
 			'color'   => '#0da7e4',
 			'default' => true,
 		],
 		'note' => [
 			'title' => __( 'Note', 'mai-notices' ),
+			'style' => 'light',
 			'icon'  => 'pencil',
 			'color' => '#0da7e4',
 		],
 		'bookmark' => [
 			'title' => __( 'Bookmark', 'mai-notices' ),
+			'style' => 'light',
 			'icon'  => 'bookmark',
 			'color' => '#055e9a',
 		],
 		'idea' => [
 			'title' => __( 'Idea', 'mai-notices' ),
+			'style' => 'light',
 			'icon'  => 'lightbulb-on',
 			'color' => '#f7cf00',
 		],
 		'alert'   => [
 			'title' => __( 'Alert', 'mai-notices' ),
+			'style' => 'light',
 			'icon'  => 'exclamation-circle',
 			'color' => '#fea320',
 		],
 		'success' => [
 			'title' => __( 'Success', 'mai-notices' ),
+			'style' => 'light',
 			'icon'  => 'check-circle',
 			'color' => '#00cd51',
 		],
 		'error'   => [
 			'title' => __( 'Error', 'mai-notices' ),
+			'style' => 'light',
 			'icon'  => 'times-circle',
 			'color' => '#fd0010',
 		],
@@ -83,6 +90,7 @@ function mai_notice_get_types() {
 	// Add Custom to the end.
 	$types['custom'] = [
 		'title' => __( 'None/Custom', 'mai-notices' ),
+		'style' => 'light',
 		'icon'  => null,
 		'color' => null,
 	];

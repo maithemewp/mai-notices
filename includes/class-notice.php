@@ -16,6 +16,7 @@ class Mai_Notice {
 		return [
 			'type'    => '', // Required.
 			'content' => '', // Required.
+			'style'   => 'light',
 			'icon'    => '',
 			'color'   => '',
 			'class'   => '',
@@ -70,64 +71,51 @@ class Mai_Notice {
 			return $html;
 		}
 
-		// Build path.
-		$path = mai_notice_get_icons_dir() . 'svgs/' . $icon . '.svg';
+		$html = mai_get_svg_icon( $icon, $this->args['style'],
+			[
+				'class'       => 'mai-notice-icon',
+				'fill'        => 'currentColor',
+				'height'      => '1em',
+				'width'       => '1em',
+				'aria-hidden' => 'true',
+				'focusable'   => 'false',
+				'role'        => 'img',
+			]
+		);
 
-		// Bail if no file.
-		if ( ! file_exists( $path ) ) {
-			return $html;
-		}
-
-		// Get the icon.
-		$icon = file_get_contents( $path );
-
-		// Create the new document.
-		$dom = new DOMDocument;
-
-		// Modify state.
-		$libxml_previous_state = libxml_use_internal_errors( true );
-
-		// Load the content in the document HTML.
-		$dom->loadHTML( mb_convert_encoding( $icon, 'HTML-ENTITIES', "UTF-8" ) );
-
-		// Handle errors.
-		libxml_clear_errors();
-
-		// Restore.
-		libxml_use_internal_errors( $libxml_previous_state );
-
-		// Need to loop through, even thoguh there is only one item.
-		foreach ( $dom->getElementsByTagName( 'svg' ) as $item ) {
-			// Class.
-			$item->setAttribute( 'class', 'mai-notice-icon' );
-			// Color.
-			$item->setAttribute( 'fill', 'currentColor' );
-			// Height & Width.
-			$item->setAttribute( 'height', '1em' );
-			$item->setAttribute( 'width', '1em' );
-			// Accessibility.
-			$item->setAttribute( 'aria-hidden', 'true' );
-			$item->setAttribute( 'focusable', 'false' );
-			$item->setAttribute( 'role', 'img' );
-			// Replace the HTML.
-			$html = $dom->saveHTML();
-		}
-
-		// Send it.
 		return $html;
 	}
 
+	/**
+	 * Gets the selected icon.
+	 *
+	 * @since 1.0.0
+	 * @since TBD Converted to clone fields which returns an array of data.
+	 *
+	 * @return string
+	 */
 	function get_icon() {
 		if ( $this->args['icon'] ) {
-			return $this->args['icon'];
+			$icon = $this->args['icon'];
+		} else {
+			$icon = isset( $this->types[ $this->args['type'] ]['icon'] ) ? $this->types[ $this->args['type'] ]['icon'] : '';
 		}
-		return isset( $this->types[ $this->args['type'] ]['icon'] ) ? $this->types[ $this->args['type'] ]['icon'] : '';
+
+		return $icon;
 	}
 
+	/**
+	 * Gets the notice color.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
 	function get_color() {
 		if ( $this->args['color'] ) {
 			return $this->args['color'];
 		}
+
 		return isset( $this->types[ $this->args['type'] ]['color'] ) ? $this->types[ $this->args['type'] ]['color'] : '';
 	}
 }
