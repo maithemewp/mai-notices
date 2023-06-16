@@ -1,17 +1,38 @@
 <?php
 
-class Mai_Notice {
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
+class Mai_Notice {
 	protected $types;
 	protected $args;
 	protected $block;
 
+	/**
+	 * Construct the class.
+	 *
+	 * @param array $args
+	 * @param bool  $block
+	 *
+	 * @return void
+	 */
 	function __construct( $args, $block = false ) {
+		if ( ! ( function_exists( 'genesis_markup' ) && function_exists( 'mai_get_svg_icon' ) ) ) {
+			return;
+		}
+
 		$this->types = mai_notice_get_types();
 		$this->args  = wp_parse_args( $args, $this->get_defaults() );
 		$this->block = $block;
 	}
 
+	/**
+	 * Get default args.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
 	function get_defaults() {
 		return [
 			'type'    => '', // Required.
@@ -23,6 +44,13 @@ class Mai_Notice {
 		];
 	}
 
+	/**
+	 * Get notice.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
 	function get() {
 		if ( ! ( $this->args['type'] && $this->args['content'] ) ) {
 			return '';
@@ -63,11 +91,14 @@ class Mai_Notice {
 		);
 	}
 
+	/**
+	 * Get icon markup.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
 	function get_icon_html() {
-		if ( ! function_exists( 'mai_get_svg_icon' ) ) {
-			return;
-		}
-
 		$html = '';
 		$icon = $this->get_icon();
 

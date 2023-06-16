@@ -1,8 +1,13 @@
 <?php
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 add_shortcode( 'mai_notice', 'mai_notice_shortcode_callback' );
 /**
  * Registers a shortcode for displaying a notice outside of the block editor.
+ *
+ * @since 1.0.0
  *
  * @param array $atts The shortcode attributes.
  *
@@ -10,11 +15,14 @@ add_shortcode( 'mai_notice', 'mai_notice_shortcode_callback' );
  */
 function mai_notice_shortcode_callback( $atts, $content = null ) {
 	$atts['content'] = $content;
+
 	return mai_get_notice( $atts );
 }
 
 /**
  * Returns a notice.
+ *
+ * @since 1.0.0
  *
  * @param array $args The notice args.
  * @param bool  $block If the notice is coming from a block. This disables the processing of incoming content.
@@ -23,11 +31,14 @@ function mai_notice_shortcode_callback( $atts, $content = null ) {
  */
 function mai_get_notice( $args, $block = false ) {
 	$notice = new Mai_Notice( $args, $block );
+
 	return $notice->get();
 }
 
 /**
  * Gets all of the available notice types.
+ *
+ * @since 1.0.0
  *
  * @return array
  */
@@ -99,25 +110,9 @@ function mai_notice_get_types() {
 }
 
 /**
- * Gets the icons directory.
- *
- * @return string
- */
-function mai_notice_get_icons_dir() {
-	return MAI_NOTICES_PLUGIN_DIR . 'assets/icons/';
-}
-
-/**
- * Gets the icons directory url.
- *
- * @return string
- */
-function mai_notice_get_icons_url() {
-	return MAI_NOTICES_PLUGIN_URL . 'assets/icons/';
-}
-
-/**
  * Enqueues the notices styles.
+ *
+ * @since 1.0.0
  *
  * @return void
  */
@@ -130,12 +125,13 @@ function mai_notice_enqueue_style() {
 /**
  * Taken from `mai_get_processed_content()` in Mai Engine plugin.
  *
+ * @since 1.0.0
+ *
  * @param string $content The unprocessed content.
  *
  * @return string
  */
 function mai_notice_get_processed_content( $content ) {
-
 	/**
 	 * Embed.
 	 *
@@ -159,6 +155,8 @@ function mai_notice_get_processed_content( $content ) {
 add_action( 'acf/input/admin_head', 'mai_notice_custom_css' );
 /**
  * Adds custom admin CSS for the block fields.
+ *
+ * @since 1.0.0
  *
  * @return void
  */
