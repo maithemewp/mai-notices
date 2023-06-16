@@ -90,7 +90,7 @@ class Mai_Notice {
 	 * Gets the selected icon.
 	 *
 	 * @since 1.0.0
-	 * @since TBD Converted to clone fields which returns an array of data.
+	 * @since 1.2.0 Converted to clone fields which returns an array of data.
 	 *
 	 * @return string
 	 */
