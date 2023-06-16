@@ -13,6 +13,9 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+// Must be at the top of the file.
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
 /**
  * Main Mai_Notices_Plugin Class.
  *
@@ -87,7 +90,6 @@ final class Mai_Notices_Plugin {
 	 * @return  void
 	 */
 	private function setup_constants() {
-
 		// Plugin version.
 		if ( ! defined( 'MAI_NOTICES_VERSION' ) ) {
 			define( 'MAI_NOTICES_VERSION', '1.1.2' );
@@ -140,7 +142,7 @@ final class Mai_Notices_Plugin {
 	 * @return void
 	 */
 	public function hooks() {
-		add_action( 'admin_init', [ $this, 'updater' ] );
+		add_action( 'plugins_loaded', [ $this, 'updater' ], 12 );
 	}
 
 	/**
@@ -155,19 +157,13 @@ final class Mai_Notices_Plugin {
 	 * @return void
 	 */
 	public function updater() {
-
-		// Bail if current user cannot manage plugins.
-		if ( ! current_user_can( 'install_plugins' ) ) {
-			return;
-		}
-
 		// Bail if plugin updater is not loaded.
-		if ( ! class_exists( 'Puc_v4_Factory' ) ) {
+		if ( ! class_exists( 'YahnisElsts\PluginUpdateChecker\v5\PucFactory' ) ) {
 			return;
 		}
 
 		// Setup the updater.
-		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-notices/', __FILE__, 'mai-notices' );
+		$updater = PucFactory::buildUpdateChecker( 'https://github.com/maithemewp/mai-notices/', __FILE__, 'mai-notices' );
 
 		// Maybe set github api token.
 		if ( defined( 'MAI_GITHUB_API_TOKEN' ) ) {
