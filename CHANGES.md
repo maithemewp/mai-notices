@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0 (TBD)
+* Changed: Mai Notice block now uses clone fields from as well as requires Mai Engine plugin.
+* Changed: Spacing now uses Mai Engine spacing variables.
+* Changed: Updated updater.
+
 ## 1.1.2 (2/13/21)
 * Added: Mai logo icon to updater.
 

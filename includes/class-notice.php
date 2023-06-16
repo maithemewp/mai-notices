@@ -64,6 +64,10 @@ class Mai_Notice {
 	}
 
 	function get_icon_html() {
+		if ( ! function_exists( 'mai_get_svg_icon' ) ) {
+			return;
+		}
+
 		$html = '';
 		$icon = $this->get_icon();
 
