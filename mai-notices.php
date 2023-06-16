@@ -185,7 +185,7 @@ final class Mai_Notices_Plugin {
 	/**
 	 * Instantiate classes.
 	 *
-	 * @since TBD
+	 * @since 1.2.0
 	 *
 	 * @return void
 	 */
