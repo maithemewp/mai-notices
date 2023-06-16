@@ -1,20 +1,30 @@
 <?php
 
-// Get it started.
-add_action( 'plugins_loaded', function() {
-	new Mai_Notice_Block;
-});
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 class Mai_Notice_Block {
-
+	/**
+	 * Construct the class.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	function __construct() {
-		add_action( 'acf/init', [ $this, 'register_block' ], 10, 3 );
-		add_action( 'acf/init', [ $this, 'register_field_group' ], 10, 3 );
-		add_filter( 'acf/load_field/key=field_5dd6bca5fa5c6', [ $this, 'load_type_choices' ] );
-		add_filter( 'acf/load_field/key=field_5dd6c75b0ea87', [ $this, 'load_icon_choices' ] );
+		add_action( 'acf/init',                                  [ $this, 'register_block' ], 10, 3 );
+		add_action( 'acf/init',                                  [ $this, 'register_field_group' ], 10, 3 );
+		add_filter( 'acf/load_field/key=field_5dd6bca5fa5c6',    [ $this, 'load_type_choices' ] );
 		add_filter( 'acf/prepare_field/key=field_5dd6c3e627a83', [ $this, 'load_deprecated_content' ] );
 	}
 
+	/**
+	 * Register the block.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	function register_block() {
 		if ( ! function_exists( 'acf_register_block_type' ) ) {
 			return;
@@ -39,10 +49,18 @@ class Mai_Notice_Block {
 		] );
 	}
 
+	/**
+	 * Dipslay the notice.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	function do_notice( $block, $content = '', $is_preview = false ) {
 		$types    = mai_notice_get_types();
 		$type     = get_field( 'type' );
 		$type     = $type ?: $this->get_default_type();
+		$style    = 'custom' === $type ? get_field( 'style' ) : ( isset( $types[ $type ]['style'] ) ? $types[ $type ]['style'] : '' );
 		$icon     = 'custom' === $type ? get_field( 'icon' ) : ( isset( $types[ $type ]['icon'] ) ? $types[ $type ]['icon'] : '' );
 		$color    = 'custom' === $type ? get_field( 'color' ) : ( isset( $types[ $type ]['color'] ) ? $types[ $type ]['color'] : '' );
 		$existing = get_field( 'content' );
@@ -50,12 +68,19 @@ class Mai_Notice_Block {
 		$inner   .= $is_preview && $existing ? sprintf( '<p style="padding:8px 16px;background-color:#fd0010;color:white;font-size:15px;border-radius:3px;">%s</p>', __( 'This block contains content in the old field in the sidebar. Please copy it out of there and paste into the new inner blocks editor!' , 'mai-notices' ) ) : '';
 		$inner   .= $existing ?: $existing;
 		$inner   .= $this->get_inner_blocks();
+
 		$args     = [
 			'type'    => $type,
+			'style'   => $style,
 			'icon'    => $icon,
 			'color'   => $color,
 			'content' => $inner,
 		];
+
+		// Swap for brand.
+		if ( 'custom' === $type && 'brands' === $args['style'] ) {
+			$args['icon'] = get_field( 'icon_brand' );
+		}
 
 		if ( isset( $block['className'] ) && ! empty( $block['className'] ) ) {
 			$args['class'] = $block['className'];
@@ -64,6 +89,13 @@ class Mai_Notice_Block {
 		echo mai_get_notice( $args, true );
 	}
 
+	/**
+	 * Get default type.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
 	function get_default_type() {
 		$default = 'info';
 		$types   = mai_notice_get_types();
@@ -77,6 +109,13 @@ class Mai_Notice_Block {
 		return $default;
 	}
 
+	/**
+	 * Get inner blocks.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
 	function get_inner_blocks() {
 		$template = [
 			[ 'core/paragraph', [], [] ],
@@ -85,6 +124,13 @@ class Mai_Notice_Block {
 		return sprintf( '<InnerBlocks template="%s" />', esc_attr( wp_json_encode( $template ) ) );
 	}
 
+	/**
+	 * Load type choices.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
 	function load_type_choices( $field ) {
 		$field['choices'] = [];
 		$types            = mai_notice_get_types();
@@ -100,22 +146,13 @@ class Mai_Notice_Block {
 		return $field;
 	}
 
-	function load_icon_choices( $field ) {
-		$field['choices'] = [];
-
-		// Bail if editing the field group.
-		if ( 'acf-field-group' === get_post_type() ) {
-			return $field;
-		}
-
-		foreach ( glob( mai_notice_get_icons_dir() . 'svgs/*.svg' ) as $file ) {
-			$name = basename( $file, '.svg' );
-			$field['choices'][ $name ] = sprintf( '<svg class="mai-notice-icon-svg"><use xlink:href="%ssprites/regular.svg#%s"></use></svg><span class="mai-notice-icon-name">%s</span>', mai_notice_get_icons_url(), $name, $name );
-		}
-
-		return $field;
-	}
-
+	/**
+	 * Register deprecated content field.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
 	function load_deprecated_content( $field ) {
 		if ( ! $field['value'] ) {
 			return [];
@@ -124,78 +161,82 @@ class Mai_Notice_Block {
 		return $field;
 	}
 
+	/**
+	 * Register field group.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	function register_field_group() {
 		if ( ! function_exists( 'acf_add_local_field_group' ) ) {
 			return;
 		}
 
 		acf_add_local_field_group( [
-			'key'                   => 'group_5dd6bc04f2d4b',
-			'title'                 => __( 'Mai Notice', 'mai-notices' ),
-			'fields'                => [
+			'key'    => 'group_5dd6bc04f2d4b',
+			'title'  => __( 'Mai Notice', 'mai-notices' ),
+			'fields' => [
 				[
-					'key'                 => 'field_5dd6bca5fa5c6',
-					'label'               => __( 'Type', 'mai-notices' ),
-					'name'                => 'type',
-					'type'                => 'radio',
-					'instructions'        => '',
-					'required'            => 1,
-					'choices'             => [], // Loaded via filter.
+					'key'          => 'field_5dd6bca5fa5c6',
+					'label'        => __( 'Type', 'mai-notices' ),
+					'name'         => 'type',
+					'type'         => 'radio',
+					'instructions' => '',
+					'required'     => 1,
+					'choices'      => [],                            // Loaded via filter.
 				],
 				[
-					'key'                 => 'field_5dd6c75b0ea87',
-					'label'               => __( 'Icon', 'mai-notices' ),
-					'name'                => 'icon',
-					'type'                => 'select',
-					'instructions'        => '',
-					'conditional_logic'   => [
+					'key'               => 'field_621fc57e6e76d',
+					'label'             => __( 'Icon', 'mai-notices' ),
+					'name'              => 'icon_clone',
+					'type'              => 'clone',
+					'display'           => 'group',                                                              // 'group' or 'seamless'. 'group' allows direct return of actual field names via get_field( 'style' ).
+					'clone'             => [ 'mai_icon_style', 'mai_icon_choices', 'mai_icon_brand_choices' ],
+					'conditional_logic' => [
 						[
 							[
-								'field'            => 'field_5dd6bca5fa5c6',
-								'operator'         => '==',
-								'value'            => 'custom',
+								'field'    => 'field_5dd6bca5fa5c6',
+								'operator' => '==',
+								'value'    => 'custom',
 							],
 						],
 					],
-					'choices'             => [],
-					'default_value'       => false,
-					'ui'                  => 1,
-					'ajax'                => 1,
 				],
 				[
-					'key'                 => 'field_5dd6e200452f3',
-					'label'               => __( 'Color', 'mai-notices' ),
-					'name'                => 'color',
-					'type'                => 'color_picker',
-					'instructions'        => '',
-					'conditional_logic'   => [
+					'key'               => 'field_5dd6e200452f3',
+					'label'             => __( 'Color', 'mai-notices' ),
+					'name'              => 'color',
+					'type'              => 'color_picker',
+					'instructions'      => '',
+					'default_value'     => '#06a4e6',
+					'conditional_logic' => [
 						[
 							[
-								'field'            => 'field_5dd6bca5fa5c6',
-								'operator'         => '==',
-								'value'            => 'custom',
+								'field'    => 'field_5dd6bca5fa5c6',
+								'operator' => '==',
+								'value'    => 'custom',
 							],
 						],
 					],
-					'default_value'       => '#06a4e6',
 				],
 				[
-					'key'                 => 'field_5dd6c3e627a83',
-					'label'               => __( 'Content', 'mai-notices' ),
-					'name'                => 'content',
-					'type'                => 'wysiwyg',
-					'tabs'                => 'all',
-					'toolbar'             => 'basic',
-					'media_upload'        => 0,
-					'delay'               => 1,
+					'key'          => 'field_5dd6c3e627a83',
+					'label'        => __( 'Content', 'mai-notices' ),
+					'name'         => 'content',
+					'type'         => 'wysiwyg',
+					'tabs'         => 'all',
+					'toolbar'      => 'basic',
+					'media_upload' => 0,
+					'delay'        => 1,
 				],
 			],
-			'location'              => [
+			'location' => [
 				[
 					[
-						'param'              => 'block',
-						'operator'           => '==',
-						'value'              => 'acf/mai-notice',
+						'param'    => 'block',
+						'operator' => '==',
+						'value'    => 'acf/mai-notice',
 					],
 				],
 			],

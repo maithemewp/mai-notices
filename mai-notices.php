@@ -4,7 +4,7 @@
  * Plugin Name:     Mai Notices
  * Plugin URI:      https://bizbudding.com/products/mai-notices/
  * Description:     Custom block for callout notices in your content.
- * Version:         1.1.2
+ * Version:         1.2.0
  *
  * Author:          BizBudding
  * Author URI:      https://bizbudding.com
@@ -12,6 +12,9 @@
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
+
+// Must be at the top of the file.
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 /**
  * Main Mai_Notices_Plugin Class.
@@ -87,10 +90,9 @@ final class Mai_Notices_Plugin {
 	 * @return  void
 	 */
 	private function setup_constants() {
-
 		// Plugin version.
 		if ( ! defined( 'MAI_NOTICES_VERSION' ) ) {
-			define( 'MAI_NOTICES_VERSION', '1.1.2' );
+			define( 'MAI_NOTICES_VERSION', '1.2.0' );
 		}
 
 		// Plugin Folder Path.
@@ -140,7 +142,8 @@ final class Mai_Notices_Plugin {
 	 * @return void
 	 */
 	public function hooks() {
-		add_action( 'admin_init', [ $this, 'updater' ] );
+		add_action( 'plugins_loaded', [ $this, 'updater' ], 12 );
+		add_action( 'plugins_loaded', [ $this, 'classes' ] );
 	}
 
 	/**
@@ -155,19 +158,13 @@ final class Mai_Notices_Plugin {
 	 * @return void
 	 */
 	public function updater() {
-
-		// Bail if current user cannot manage plugins.
-		if ( ! current_user_can( 'install_plugins' ) ) {
-			return;
-		}
-
 		// Bail if plugin updater is not loaded.
-		if ( ! class_exists( 'Puc_v4_Factory' ) ) {
+		if ( ! class_exists( 'YahnisElsts\PluginUpdateChecker\v5\PucFactory' ) ) {
 			return;
 		}
 
 		// Setup the updater.
-		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-notices/', __FILE__, 'mai-notices' );
+		$updater = PucFactory::buildUpdateChecker( 'https://github.com/maithemewp/mai-notices/', __FILE__, 'mai-notices' );
 
 		// Maybe set github api token.
 		if ( defined( 'MAI_GITHUB_API_TOKEN' ) ) {
@@ -183,6 +180,21 @@ final class Mai_Notices_Plugin {
 				}
 			);
 		}
+	}
+
+	/**
+	 * Instantiate classes.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return void
+	 */
+	function classes() {
+		if ( ! class_exists( 'Mai_Engine' ) ) {
+			return;
+		}
+
+		new Mai_Notice_Block;
 	}
 }
 
@@ -201,9 +213,9 @@ final class Mai_Notices_Plugin {
  *
  * @return object|Mai_Notices_Plugin The one true Mai_Notices_Plugin Instance.
  */
-function Mai_Notices_Plugin() {
+function mai_notices_plugin() {
 	return Mai_Notices_Plugin::instance();
 }
 
 // Get Mai_Notices_Plugin Running.
-Mai_Notices_Plugin();
+mai_notices_plugin();

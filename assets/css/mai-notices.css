@@ -1,12 +1,13 @@
 .mai-notice {
 	position: relative;
-	margin-bottom: 24px;
+	margin-bottom: var(--spacing-lg, 24px);
 	padding: var(--mai-notice-padding, var(--mai-notice-padding-top, 24px) var(--mai-notice-padding-right, 24px) var(--mai-notice-padding-bottom, 24px) var(--mai-notice-padding-left, 32px));
 	overflow: hidden;
+	color: var(--color-body, inherit);
 	background: var(--color-white, white);
 	border: var(--border, 1px solid rgba(0, 0, 0, 0.04));
 	border-left: none;
-	border-radius: 5px;
+	border-radius: var(--border-radius, 5px);
 	-webkit-box-shadow: var(--shadow, 0 0 16px rgba(0, 0, 0, 0.05));
 	box-shadow: var(--shadow, 0 0 16px rgba(0, 0, 0, 0.05));
 }
