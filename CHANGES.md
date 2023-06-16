@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.2.0 (TBD)
+## 1.2.0 (6/16/23)
 * Changed: Mai Notice block now requires Mai Engine and Mai Icons plugin.
 * Changed: Icons now loaded via Mai Engine and Mai Icons plugin.
 * Changed: Spacing now uses Mai Engine spacing variables.
