@@ -1,10 +1,5 @@
 <?php
 
-// Get it started.
-add_action( 'plugins_loaded', function() {
-	new Mai_Notice_Block;
-});
-
 class Mai_Notice_Block {
 
 	function __construct() {

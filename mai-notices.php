@@ -143,6 +143,7 @@ final class Mai_Notices_Plugin {
 	 */
 	public function hooks() {
 		add_action( 'plugins_loaded', [ $this, 'updater' ], 12 );
+		add_action( 'plugins_loaded', [ $this, 'classes' ] );
 	}
 
 	/**
@@ -179,6 +180,21 @@ final class Mai_Notices_Plugin {
 				}
 			);
 		}
+	}
+
+	/**
+	 * Instantiate classes.
+	 *
+	 * @since TBD
+	 *
+	 * @return void
+	 */
+	function classes() {
+		if ( ! class_exists( 'Mai_Engine' ) ) {
+			return;
+		}
+
+		new Mai_Notice_Block;
 	}
 }
 
