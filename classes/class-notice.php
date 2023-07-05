@@ -128,6 +128,8 @@ class Mai_Notice {
 			]
 		);
 
+		$html = apply_filters( 'mai_notices_icon', $html, $this->args );
+
 		return $html;
 	}
 

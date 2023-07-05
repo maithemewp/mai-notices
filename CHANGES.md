@@ -1,6 +1,7 @@
 # Changelog
 
 ## 1.3.0 (TBD)
+* Added: [Developers] New filter on the SVG markup.
 * Changed: Convert block to block.json syntax.
 * Changed: Better handling of inline styles via `wp_add_inline_style()`.
 
