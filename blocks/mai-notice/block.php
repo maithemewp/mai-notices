@@ -127,7 +127,7 @@ function mai_notice_load_deprecated_content( $field ) {
 	return $field;
 }
 
-add_action( 'acf/init', 'mai_register_notice_field_group', 10, 3 );
+add_action( 'acf/init', 'mai_register_notice_field_group' );
 /**
  * Registers field groups.
  *
@@ -152,14 +152,14 @@ function mai_register_notice_field_group() {
 					'type'         => 'radio',
 					'instructions' => '',
 					'required'     => 1,
-					'choices'      => [],                            // Loaded via filter.
+					'choices'      => [], // Loaded via filter.
 				],
 				[
 					'key'               => 'field_621fc57e6e76d',
 					'label'             => __( 'Icon', 'mai-notices' ),
 					'name'              => 'icon_clone',
 					'type'              => 'clone',
-					'display'           => 'group',                                                              // 'group' or 'seamless'. 'group' allows direct return of actual field names via get_field( 'style' ).
+					'display'           => 'group', // 'group' or 'seamless'. 'group' allows direct return of actual field names via get_field( 'style' ).
 					'clone'             => [ 'mai_icon_style', 'mai_icon_choices', 'mai_icon_brand_choices' ],
 					'conditional_logic' => [
 						[
