@@ -100,11 +100,6 @@ final class Mai_Notices_Plugin {
 			define( 'MAI_NOTICES_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 		}
 
-		// Plugin Includes Path.
-		if ( ! defined( 'MAI_NOTICES_INCLUDES_DIR' ) ) {
-			define( 'MAI_NOTICES_INCLUDES_DIR', MAI_NOTICES_PLUGIN_DIR . 'includes/' );
-		}
-
 		// Plugin Folder URL.
 		if ( ! defined( 'MAI_NOTICES_PLUGIN_URL' ) ) {
 			define( 'MAI_NOTICES_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -132,7 +127,9 @@ final class Mai_Notices_Plugin {
 		// Include vendor libraries.
 		require_once __DIR__ . '/vendor/autoload.php';
 		// Includes.
-		foreach ( glob( MAI_NOTICES_INCLUDES_DIR . '*.php' ) as $file ) { include $file; }
+		foreach ( glob( MAI_NOTICES_PLUGIN_DIR . 'includes/*.php' ) as $file ) { include $file; }
+		// Classes.
+		foreach ( glob( MAI_NOTICES_PLUGIN_DIR . 'classes/*.php' ) as $file ) { include $file; }
 	}
 
 	/**
@@ -143,7 +140,7 @@ final class Mai_Notices_Plugin {
 	 */
 	public function hooks() {
 		add_action( 'plugins_loaded', [ $this, 'updater' ], 12 );
-		add_action( 'plugins_loaded', [ $this, 'classes' ] );
+		add_action( 'plugins_loaded', [ $this, 'blocks' ] );
 	}
 
 	/**
@@ -183,18 +180,18 @@ final class Mai_Notices_Plugin {
 	}
 
 	/**
-	 * Instantiate classes.
+	 * Load blocks.
 	 *
-	 * @since 1.2.0
+	 * @since TBD
 	 *
 	 * @return void
 	 */
-	function classes() {
+	function blocks() {
 		if ( ! class_exists( 'Mai_Engine' ) ) {
 			return;
 		}
 
-		new Mai_Notice_Block;
+		include MAI_NOTICES_PLUGIN_DIR . 'blocks/mai-notice/block.php';
 	}
 }
 

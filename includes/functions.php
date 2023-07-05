@@ -110,19 +110,6 @@ function mai_notice_get_types() {
 }
 
 /**
- * Enqueues the notices styles.
- *
- * @since 1.0.0
- *
- * @return void
- */
-function mai_notice_enqueue_style() {
-	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-	wp_register_style( 'mai-notices', MAI_NOTICES_PLUGIN_URL . "assets/css/mai-notices{$suffix}.css", [], MAI_NOTICES_VERSION );
-	wp_enqueue_style( 'mai-notices' );
-}
-
-/**
  * Taken from `mai_get_processed_content()` in Mai Engine plugin.
  *
  * @since 1.0.0

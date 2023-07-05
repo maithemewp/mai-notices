@@ -35,6 +35,7 @@ class Mai_Notice {
 	 */
 	function get_defaults() {
 		return [
+			'preview' => false,
 			'type'    => '', // Required.
 			'content' => '', // Required.
 			'style'   => 'light',
@@ -56,7 +57,16 @@ class Mai_Notice {
 			return '';
 		}
 
-		mai_notice_enqueue_style();
+		static $styles = false;
+
+		if ( ! $styles && ! $this->args['preview'] ) {
+			$styles = true;
+			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+			$path   = MAI_NOTICES_PLUGIN_DIR . "assets/css/mai-notices{$suffix}.css";
+			$css    = file_get_contents( $path );
+
+			wp_add_inline_style( 'wp-block-library', trim( $css ) );
+		}
 
 		$icon    = $this->get_icon_html();
 		$color   = $this->get_color();

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0 (TBD)
+* Changed: Convert block to block.json syntax.
+* Changed: Better handling of inline styles via `wp_add_inline_style()`.
+
 ## 1.2.0 (6/16/23)
 * Changed: Mai Notice block now requires Mai Engine and Mai Icons plugin.
 * Changed: Icons now loaded via Mai Engine and Mai Icons plugin.
