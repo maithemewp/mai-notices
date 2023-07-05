@@ -33,9 +33,9 @@ Choose from over 1000 icons.
  * @return array
  */
 add_filter( 'mai_notices_types', function( $types ) {
-	$types['skydog'] = [
-		'title' => __( 'Sky Dog', 'textdomain' ),
-		'icon'  => 'skydog',
+	$types['jivedig'] = [
+		'title' => __( 'JiveDig', 'textdomain' ),
+		'icon'  => 'jivedig',
 		'color' => '#E5C96C',
 	];
 
@@ -53,7 +53,7 @@ add_filter( 'mai_notices_types', function( $types ) {
  * @return string
  */
 add_filter( 'mai_notices_icon', function( $html, $args ) {
-	if ( 'skydog' !== $args['icon'] ) {
+	if ( 'jivedig' !== $args['icon'] ) {
 		return $html;
 	}
 
