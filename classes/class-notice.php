@@ -57,16 +57,11 @@ class Mai_Notice {
 			return '';
 		}
 
-		static $styles = false;
-
-		if ( ! $styles && ! $this->args['preview'] ) {
-			$styles = true;
-			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-			$path   = MAI_NOTICES_PLUGIN_DIR . "assets/css/mai-notices{$suffix}.css";
-			$css    = file_get_contents( $path );
-
-			wp_add_inline_style( 'wp-block-library', trim( $css ) );
-		}
+		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$url    = MAI_NOTICES_PLUGIN_URL . "assets/css/mai-notices{$suffix}.css";
+		$path   = MAI_NOTICES_PLUGIN_DIR . "assets/css/mai-notices{$suffix}.css";
+		wp_enqueue_style( 'mai-notices', $url );
+		wp_style_add_data( 'mai-notices', 'path', $path );
 
 		$icon    = $this->get_icon_html();
 		$color   = $this->get_color();
