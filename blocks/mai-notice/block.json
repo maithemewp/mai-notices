@@ -6,7 +6,7 @@
 	"keywords": [ "notice", "callout", "content" ],
 	"icon": "info",
 	"textdomain": "mai-notice",
-	"editorStyle": "file:../../assets/css/mai-notices.min.css",
+	"style": "file:../../assets/css/mai-notices.min.css",
 	"acf": {
 		"mode": "preview",
 		"renderCallback": "mai_do_notice_block"
