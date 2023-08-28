@@ -57,12 +57,6 @@ class Mai_Notice {
 			return '';
 		}
 
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		$url    = MAI_NOTICES_PLUGIN_URL . "assets/css/mai-notices{$suffix}.css";
-		$path   = MAI_NOTICES_PLUGIN_DIR . "assets/css/mai-notices{$suffix}.css";
-		wp_enqueue_style( 'mai-notices', $url );
-		wp_style_add_data( 'mai-notices', 'path', $path );
-
 		$icon    = $this->get_icon_html();
 		$color   = $this->get_color();
 		$content = $this->args['content'];
