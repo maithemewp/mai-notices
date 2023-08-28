@@ -1,0 +1,17 @@
+{
+	"name": "acf/mai-notice",
+	"title": "Mai Notice",
+	"description": "A callout notice block.",
+	"category": "widgets",
+	"keywords": [ "notice", "callout", "content" ],
+	"icon": "info",
+	"textdomain": "mai-notice",
+	"style": "file:../../assets/css/mai-notices.min.css",
+	"acf": {
+		"mode": "preview",
+		"renderCallback": "mai_do_notice_block"
+	},
+	"supports": {
+		"align": [ "wide" ]
+	}
+}
