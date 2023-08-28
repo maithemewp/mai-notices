@@ -31,7 +31,7 @@ function mai_do_notice_block( $block, $content = '', $is_preview = false, $post_
 	$types    = mai_notice_get_types();
 	$type     = get_field( 'type' );
 	$type     = $type ?: mai_notice_get_default_type();
-	$style    = 'custom' === $type ? get_field( 'style' ) : ( isset( $types[ $type ]['style'] ) ? $types[ $type ]['style'] : '' );
+	$style    = 'custom' === $type ? get_field( 'style' ) ?: 'light' : ( isset( $types[ $type ]['style'] ) ? $types[ $type ]['style'] : '' );
 	$icon     = 'custom' === $type ? get_field( 'icon' ) : ( isset( $types[ $type ]['icon'] ) ? $types[ $type ]['icon'] : '' );
 	$color    = 'custom' === $type ? get_field( 'color' ) : ( isset( $types[ $type ]['color'] ) ? $types[ $type ]['color'] : '' );
 	$existing = get_field( 'content' );
