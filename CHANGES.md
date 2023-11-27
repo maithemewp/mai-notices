@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.1 (11/27/23)
+* Changed: Updated the updater.
+
 ## 1.3.0 (8/28/23)
 * Added: [Developers] New filter on the SVG markup.
 * Changed: Convert block to block.json syntax.

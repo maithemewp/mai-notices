@@ -4,7 +4,7 @@
  * Plugin Name:     Mai Notices
  * Plugin URI:      https://bizbudding.com/products/mai-notices/
  * Description:     Custom block for callout notices in your content.
- * Version:         1.3.0
+ * Version:         1.3.1
  *
  * Author:          BizBudding
  * Author URI:      https://bizbudding.com
@@ -92,7 +92,7 @@ final class Mai_Notices_Plugin {
 	private function setup_constants() {
 		// Plugin version.
 		if ( ! defined( 'MAI_NOTICES_VERSION' ) ) {
-			define( 'MAI_NOTICES_VERSION', '1.3.0' );
+			define( 'MAI_NOTICES_VERSION', '1.3.1' );
 		}
 
 		// Plugin Folder Path.
