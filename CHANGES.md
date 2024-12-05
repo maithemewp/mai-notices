@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.2 (12/5/24)
+* Changed: Updated the updater.
+* Changed: [Performance] Only run ACF filters in back end.
+* Fixed: Removed unnecessary ACF block validation.
+
 ## 1.3.1 (11/27/23)
 * Changed: Updated the updater.
 
