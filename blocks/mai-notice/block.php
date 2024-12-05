@@ -95,6 +95,10 @@ add_filter( 'acf/load_field/key=field_5dd6bca5fa5c6', 'mai_notice_load_type_choi
  * @return array
  */
 function mai_notice_load_type_choices( $field ) {
+	if ( ! is_admin() ) {
+		return $field;
+	}
+
 	$field['choices'] = [];
 	$types            = mai_notice_get_types();
 
@@ -102,7 +106,7 @@ function mai_notice_load_type_choices( $field ) {
 		$field['choices'][ $name ] = $type['title'];
 
 		if ( isset( $type['default'] ) && $type['default'] ) {
-			$field['default'] = $name;
+			$field['default_value'] = $name;
 		}
 	}
 
@@ -146,13 +150,13 @@ function mai_register_notice_field_group() {
 			'title'  => __( 'Mai Notice', 'mai-notices' ),
 			'fields' => [
 				[
-					'key'          => 'field_5dd6bca5fa5c6',
-					'label'        => __( 'Type', 'mai-notices' ),
-					'name'         => 'type',
-					'type'         => 'radio',
-					'instructions' => '',
-					'required'     => 1,
-					'choices'      => [], // Loaded via filter.
+					'key'           => 'field_5dd6bca5fa5c6',
+					'label'         => __( 'Type', 'mai-notices' ),
+					'name'          => 'type',
+					'type'          => 'radio',
+					'instructions'  => '',
+					// 'required'      => 1, // This will throw a validation error since ACF 6.3.
+					'choices'       => [], // Loaded via filter.
 				],
 				[
 					'key'               => 'field_621fc57e6e76d',
