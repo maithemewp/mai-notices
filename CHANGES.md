@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.3 (5/27/26)
+* Changed: Updated blocks to Block API v3 for WP 6.9 compatibility.
+
 ## 1.3.2 (12/5/24)
 * Changed: Updated the updater.
 * Changed: [Performance] Only run ACF filters in back end.
