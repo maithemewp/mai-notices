@@ -1,4 +1,5 @@
 {
+	"apiVersion": 3,
 	"name": "acf/mai-notice",
 	"title": "Mai Notice",
 	"description": "A callout notice block.",
