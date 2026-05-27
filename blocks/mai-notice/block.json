@@ -1,5 +1,4 @@
 {
-	"apiVersion": 3,
 	"name": "acf/mai-notice",
 	"title": "Mai Notice",
 	"description": "A callout notice block.",
@@ -9,7 +8,7 @@
 	"textdomain": "mai-notice",
 	"style": "file:../../assets/css/mai-notices.min.css",
 	"acf": {
-		"mode": "preview",
+		"blockVersion": 3,
 		"renderCallback": "mai_do_notice_block"
 	},
 	"supports": {
