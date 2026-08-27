@@ -5,6 +5,7 @@
  * Plugin URI:      https://bizbudding.com/products/mai-notices/
  * Description:     Custom block for callout notices in your content.
  * Version:         1.3.4
+ * Requires PHP:    8.1
  *
  * Author:          BizBudding
  * Author URI:      https://bizbudding.com
