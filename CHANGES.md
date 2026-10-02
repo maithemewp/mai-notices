@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+* Fixed: [Performance] Images added by shortcodes in a notice were missing lazy loading and responsive image attributes.
+* Fixed: Notices use Mai Engine's content processing when it is active, and block content no longer gets extra paragraph tags.
+
 ## 1.3.4 (5/27/26)
 * Changed: Updated the updater for PHP 8.4 support.
 
